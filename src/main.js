@@ -5,7 +5,6 @@ import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 
 import "element-plus/theme-chalk/dark/css-vars.css";
-import "./styles/dark-theme.scss";
 
 // Создайте экземпляр приложения Vue и передайте хранилище в качестве опции
 const app = createApp(App);
