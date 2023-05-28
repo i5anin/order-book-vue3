@@ -1,28 +1,32 @@
 <template>
-  <table class="order-table">
-    <thead>
-      <tr>
-        <th>Цена (USDT)</th>
-        <th>Количество (BTC)</th>
-        <th>Всего</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="order in orders" :key="order.price">
-        <td
+  <el-table class="order-table" :data="orders" border>
+    <el-table-column>
+      <template v-slot="{ row }">
+        <div
           :class="{
-            highlighted: isOurOrder(order),
+            highlighted: isOurOrder(row),
             'sell-cell': type === 'sell',
             'buy-cell': type === 'buy'
           }"
         >
-          {{ formatPrice(order.price) }}
-        </td>
-        <td>{{ formatQuantity(order.quantity) }}</td>
-        <td>{{ formatTotal(order.price, order.quantity) }}</td>
-      </tr>
-    </tbody>
-  </table>
+          {{ formatPrice(row.price) }}
+        </div>
+      </template>
+      <template v-slot:header> Цена (USDT) </template>
+    </el-table-column>
+    <el-table-column prop="quantity">
+      <template v-slot="{ row }">
+        {{ formatQuantity(row.quantity) }}
+      </template>
+      <template v-slot:header> Количество (BTC) </template>
+    </el-table-column>
+    <el-table-column>
+      <template v-slot="{ row }">
+        {{ formatTotal(row.price, row.quantity) }}
+      </template>
+      <template v-slot:header> Всего </template>
+    </el-table-column>
+  </el-table>
 </template>
 
 <script>
@@ -62,59 +66,10 @@
 </script>
 
 <style scoped>
-  .order-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .order-table th,
-  .order-table td {
-    padding: 8px;
-    text-align: left;
-  }
-
-  .order-table th {
-    font-weight: bold;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .order-row td {
-    border-bottom: 1px solid #ddd;
-  }
-
-  .highlighted {
-    font-weight: bold;
-  }
-
   .sell-cell {
     color: red;
   }
-
   .buy-cell {
     color: green;
-  }
-
-  .dark .order-table {
-    color: #ddd;
-  }
-
-  .dark .order-table th {
-    border-bottom: 1px solid #aaa;
-  }
-
-  .dark .order-row td {
-    border-bottom: 1px solid #aaa;
-  }
-
-  .dark .highlighted {
-    font-weight: bold;
-  }
-
-  .dark .sell-cell {
-    color: #ff4d4f;
-  }
-
-  .dark .buy-cell {
-    color: #52c41a;
   }
 </style>

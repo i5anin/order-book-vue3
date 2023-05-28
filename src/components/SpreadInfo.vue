@@ -19,16 +19,3 @@
     }
   };
 </script>
-
-<style scoped>
-  .spread {
-    margin-top: 20px;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: help;
-  }
-
-  .dark .spread {
-    color: #ddd;
-  }
-</style>

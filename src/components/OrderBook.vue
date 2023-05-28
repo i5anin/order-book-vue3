@@ -1,14 +1,16 @@
 <template>
   <div class="order-book dark">
-    <SpreadInfo v-if="hasSpread" :spread="spread" />
-    <LoadingIndicator v-if="isLoading" />
+    <el-card v-if="hasSpread" class="spread-info">
+      <SpreadInfo :spread="spread" />
+    </el-card>
+    <loading-indicator v-if="isLoading" />
     <div v-else>
       <div class="header-row">
-        <div class="header">Asks (Продажа)</div>
+        <el-card class="header">Asks (Продажа)</el-card>
       </div>
       <OrderTable :orders="asks" type="sell" :ourOrders="ourOrders" />
       <div class="header-row pt25">
-        <div class="header">Bids (Покупка)</div>
+        <el-card class="header">Bids (Покупка)</el-card>
       </div>
       <OrderTable :orders="bids" type="buy" :ourOrders="ourOrders" />
     </div>
@@ -18,13 +20,14 @@
 <script>
   import OrderTable from "./OrderTable.vue";
   import SpreadInfo from "./SpreadInfo.vue";
-  import LoadingIndicator from "./LoadingIndicator.vue";
 
   export default {
     components: {
       OrderTable,
       SpreadInfo,
-      LoadingIndicator
+      loadingIndicator: {
+        template: `<el-loading text="Loading..." background="rgba(0, 0, 0, 0.7)" spinner="el-icon-loading"></el-loading>`
+      }
     },
     computed: {
       isLoading() {
@@ -52,57 +55,3 @@
     }
   };
 </script>
-
-<style scoped>
-  .order-book {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    padding: 10px;
-  }
-
-  .loading {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-
-  .header-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 16px;
-  }
-
-  .header {
-    margin-bottom: 5px;
-  }
-
-  .spread {
-    margin-top: 20px;
-    font-weight: bold;
-    font-size: 16px;
-  }
-
-  .dark {
-    background-color: #333;
-    color: #fff;
-  }
-
-  .dark .header-row {
-    color: #ddd;
-  }
-
-  .dark .header {
-    color: #aaa;
-  }
-
-  .dark .spread {
-    color: #ddd;
-  }
-
-  .pt25 {
-    padding-top: 25px;
-  }
-</style>

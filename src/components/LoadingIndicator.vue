@@ -1,5 +1,5 @@
 <template>
-  <div class="loading">{{ loadingText }}</div>
+  <el-card class="loading">{{ loadingText }}</el-card>
 </template>
 
 <script>
@@ -23,14 +23,3 @@
     }
   };
 </script>
-
-<style scoped>
-  .loading {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-
-  .dark .loading {
-    color: #ddd;
-  }
-</style>
