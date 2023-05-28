@@ -25,4 +25,8 @@
   .el-card {
     --el-card-padding: 8px !important;
   }
+
+  .el-table .el-table__cell {
+    padding: 2px 0 !important;
+  }
 </style>

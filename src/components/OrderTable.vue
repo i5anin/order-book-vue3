@@ -1,5 +1,5 @@
 <template>
-  <el-table class="order-table" :data="filteredOrders" border>
+  <el-table class="order-table" :data="visibleOrders" border>
     <el-table-column>
       <template v-slot="{ row }">
         <div
@@ -64,11 +64,22 @@
       }
     },
     computed: {
-      filteredOrders() {
-        return this.orders.filter((order) => order.quantity !== 0);
+      visibleOrders() {
+        const filteredOrders = this.orders.filter(
+          (order) =>
+            this.formatTotal(order.price, order.quantity) !== "0.00000000"
+        );
+        const centerIndex = Math.floor(filteredOrders.length / 2);
+        const start = centerIndex - 5;
+        const end = centerIndex + 6; // Include center row + 10 rows on each side
+
+        if (this.type === "sell") {
+          return filteredOrders.slice().reverse().slice(start, end);
+        } else {
+          return filteredOrders.slice(start, end);
+        }
       },
       getCurrentBitcoinPrice() {
-        // Get the current Bitcoin price from the Vuex store or any other data source
         return this.$store.state.currentBitcoinPrice;
       }
     },

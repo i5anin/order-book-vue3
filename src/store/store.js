@@ -6,7 +6,8 @@ export default createStore({
       isLoading: true,
       asks: [],
       bids: [],
-      ourOrders: []
+      ourOrders: [],
+      currentBitcoinPrice: 0 // Добавляем новое поле для текущей стоимости BTC
     };
   },
   getters: {
@@ -34,7 +35,10 @@ export default createStore({
     },
     setOurOrders(state, ourOrders) {
       state.ourOrders = ourOrders;
-    }
+    },
+    setCurrentBitcoinPrice(state, currentPrice) {
+      state.currentBitcoinPrice = currentPrice;
+    } // Добавляем мутацию для обновления текущей стоимости BTC
   },
   actions: {
     async subscribeToOrderBookStream({ commit }) {
@@ -64,6 +68,13 @@ export default createStore({
             quantity: parseFloat(bid[1])
           }))
         );
+
+        // Извлекаем текущую стоимость BTC из предложений покупки (bids)
+        if (data.b && data.b.length > 0) {
+          const currentPrice = parseFloat(data.b[0][0]);
+          commit("setCurrentBitcoinPrice", currentPrice);
+          // console.log("Текущая стоимость BTC:", currentPrice);
+        }
       };
 
       eventSource.onerror = (error) => {
