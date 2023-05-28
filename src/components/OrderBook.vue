@@ -10,21 +10,21 @@
         <div class="header pt25">Bids (Покупка)</div>
       </div>
       <OrderTable :orders="bids" type="buy" :ourOrders="ourOrders" />
-      <SpreadInfo :spread="calculateSpread()" />
+      <SpreadInfo v-if="hasSpread" :spread="spread" />
     </div>
   </div>
 </template>
 
 <script>
   import OrderTable from "./OrderTable.vue";
-  import SpreadInfo from "./SpreadInfo.vue";
   import LoadingIndicator from "./LoadingIndicator.vue";
+  import SpreadInfo from "./SpreadInfo.vue";
 
   export default {
     components: {
       OrderTable,
-      SpreadInfo,
-      LoadingIndicator
+      LoadingIndicator,
+      SpreadInfo
     },
     data() {
       return {
@@ -34,21 +34,20 @@
         ourOrders: []
       };
     },
-    methods: {
-      isOurOrder(order) {
-        return this.ourOrders.some(
-          (ourOrder) => ourOrder.price === order.price
-        );
+    computed: {
+      hasSpread() {
+        return this.bids.length > 0 && this.asks.length > 0;
       },
-      calculateSpread() {
-        if (this.bids.length === 0 || this.asks.length === 0) {
+      spread() {
+        if (!this.hasSpread) {
           return 0;
         }
-
         const bestBid = parseFloat(this.bids[0].price);
         const bestAsk = parseFloat(this.asks[0].price);
         return bestAsk - bestBid;
-      },
+      }
+    },
+    methods: {
       async subscribeToOrderBookStream() {
         const baseUrl = "wss://stream.binance.com:9443";
         const requestUrl = `${baseUrl}/ws/btcusdt@depth@1000ms`;
@@ -56,7 +55,7 @@
         const eventSource = new WebSocket(requestUrl);
 
         eventSource.onopen = () => {
-          this.isLoading = false; // Connection established, no longer loading
+          this.isLoading = false;
         };
 
         eventSource.onmessage = (event) => {
@@ -76,14 +75,14 @@
           const data = await response.json();
 
           const order = {
-            price: data.price,
+            price: parseFloat(data.price),
             quantity: 0
           };
 
           this.ourOrders = [order];
         } catch (error) {
           console.error("Failed to fetch our orders:", error);
-          this.ourOrders = []; // Set an empty array in case of error
+          this.ourOrders = [];
         }
       },
       handleOrderBookStreamData(data) {
@@ -111,7 +110,6 @@
 </script>
 
 <style scoped>
-  /* Стили для компонента OrderBook */
   .order-book {
     display: flex;
     flex-direction: column;
@@ -143,7 +141,6 @@
     font-size: 16px;
   }
 
-  /* Темные стили */
   .dark {
     background-color: #333;
     color: #fff;
