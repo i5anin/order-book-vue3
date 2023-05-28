@@ -10,7 +10,7 @@
           }"
         >
           <strong v-if="rowIndex === 1 && type === 'buy'">
-            {{ currentBitcoinPrice }}
+            {{ getCurrentBitcoinPrice }}
           </strong>
           <strong v-else>
             {{ formatPrice(row.price) }}
@@ -20,7 +20,9 @@
       <template v-slot:header>
         <span v-if="currency === 'btc'">Цена (BTC)</span>
         <span v-else-if="rowIndex === 1 && type === 'buy'">
-          <strong>{{ currentBitcoinPrice }}(актуальная цена биткойна)</strong>
+          <strong
+            >{{ getCurrentBitcoinPrice }} (актуальная цена биткойна)</strong
+          >
         </span>
         <span v-else>Цена (DENT)</span>
       </template>
@@ -67,7 +69,8 @@
       filteredOrders() {
         return this.orders.filter((order) => order.quantity !== 0);
       },
-      currentBitcoinPrice() {
+      getCurrentBitcoinPrice() {
+        // Get the current Bitcoin price from the Vuex store or any other data source
         return this.$store.state.currentBitcoinPrice;
       }
     },
@@ -99,6 +102,6 @@
     color: green;
   }
   .highlighted {
-    background-color: rgba(255, 255, 0, 0.2);
+    background-color: yellow;
   }
 </style>
