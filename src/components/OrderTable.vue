@@ -62,7 +62,6 @@
 </script>
 
 <style scoped>
-  /* Стили для компонента OrderTable */
   .order-table {
     width: 100%;
     border-collapse: collapse;
@@ -95,7 +94,6 @@
     color: green;
   }
 
-  /* Темные стили */
   .dark .order-table {
     color: #ddd;
   }

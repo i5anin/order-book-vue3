@@ -21,15 +21,13 @@
 </script>
 
 <style scoped>
-  /* Стили для компонента Spread */
   .spread {
     margin-top: 20px;
     font-weight: bold;
     font-size: 16px;
-    cursor: help; /* Добавлен стиль указателя мыши для указания на наличие подсказки */
+    cursor: help;
   }
 
-  /* Темные стили */
   .dark .spread {
     color: #ddd;
   }
