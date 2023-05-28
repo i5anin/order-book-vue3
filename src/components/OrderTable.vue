@@ -9,16 +9,30 @@
             'buy-cell': type === 'buy'
           }"
         >
-          <strong>{{ formatPrice(row.price) }}</strong>
+          <strong v-if="rowIndex === 1 && type === 'buy'">
+            {{ currentBitcoinPrice }}
+          </strong>
+          <strong v-else>
+            {{ formatPrice(row.price) }}
+          </strong>
         </div>
       </template>
-      <template v-slot:header>Цена (USDT)</template>
+      <template v-slot:header>
+        <span v-if="currency === 'btc'">Цена (BTC)</span>
+        <span v-else-if="rowIndex === 1 && type === 'buy'">
+          <strong>{{ currentBitcoinPrice }}(актуальная цена биткойна)</strong>
+        </span>
+        <span v-else>Цена (DENT)</span>
+      </template>
     </el-table-column>
     <el-table-column prop="quantity">
       <template v-slot="{ row }">
         {{ formatQuantity(row.quantity) }}
       </template>
-      <template v-slot:header>Количество (BTC)</template>
+      <template v-slot:header>
+        <span v-if="currency === 'btc'">Количество (BTC)</span>
+        <span v-else>Количество (DENT)</span>
+      </template>
     </el-table-column>
     <el-table-column>
       <template v-slot="{ row }">
@@ -43,11 +57,18 @@
       ourOrders: {
         type: Array,
         default: () => []
+      },
+      currency: {
+        type: String,
+        required: true
       }
     },
     computed: {
       filteredOrders() {
         return this.orders.filter((order) => order.quantity !== 0);
+      },
+      currentBitcoinPrice() {
+        return this.$store.state.currentBitcoinPrice;
       }
     },
     methods: {
@@ -57,14 +78,14 @@
         );
       },
       formatPrice(price) {
-        return parseFloat(price).toFixed(10);
+        return parseFloat(price).toFixed(8);
       },
       formatQuantity(quantity) {
-        return parseFloat(quantity).toFixed(10);
+        return parseFloat(quantity).toFixed(8);
       },
       formatTotal(price, quantity) {
         const total = price * quantity;
-        return parseFloat(total).toFixed(10);
+        return parseFloat(total).toFixed(8);
       }
     }
   };
@@ -76,5 +97,8 @@
   }
   .buy-cell {
     color: green;
+  }
+  .highlighted {
+    background-color: rgba(255, 255, 0, 0.2);
   }
 </style>

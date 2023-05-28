@@ -69,24 +69,24 @@ export default createStore({
       eventSource.onerror = (error) => {
         console.error("Failed to subscribe to order book stream:", error);
       };
-    },
-    async fetchOurOrders({ commit }) {
-      try {
-        const requestUrl =
-          "https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT";
-        const response = await fetch(requestUrl);
-        const data = await response.json();
-
-        const order = {
-          price: parseFloat(data.price),
-          quantity: 0
-        };
-
-        commit("setOurOrders", [order]);
-      } catch (error) {
-        console.error("Failed to fetch our orders:", error);
-        commit("setOurOrders", []);
-      }
     }
+    // async fetchOurOrders({ commit }) {
+    //   try {
+    //     const requestUrl =
+    //       "https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT";
+    //     const response = await fetch(requestUrl);
+    //     const data = await response.json();
+
+    //     const order = {
+    //       price: parseFloat(data.price),
+    //       quantity: 0
+    //     };
+
+    //     commit("setOurOrders", [order]);
+    //   } catch (error) {
+    //     console.error("Failed to fetch our orders:", error);
+    //     commit("setOurOrders", []);
+    //   }
+    // }
   }
 });
