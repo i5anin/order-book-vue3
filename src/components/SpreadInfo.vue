@@ -1,5 +1,7 @@
 <template>
-  <div class="spread">Spread: {{ formatSpread() }}</div>
+  <div class="spread" title="Разница между лучшей ценой на покупку и продажу">
+    Spread: {{ formatSpread() }} %
+  </div>
 </template>
 
 <script>
@@ -24,6 +26,7 @@
     margin-top: 20px;
     font-weight: bold;
     font-size: 16px;
+    cursor: help; /* Добавлен стиль указателя мыши для указания на наличие подсказки */
   }
 
   /* Темные стили */

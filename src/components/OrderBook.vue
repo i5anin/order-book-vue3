@@ -1,5 +1,8 @@
 <template>
   <div class="order-book dark">
+    <!-- Компонент для отображения информации о спреде -->
+    <SpreadInfo v-if="hasSpread" :spread="spread" />
+
     <!-- Показываем индикатор загрузки, если данные загружаются -->
     <LoadingIndicator v-if="isLoading" />
 
@@ -19,9 +22,6 @@
 
       <!-- Компонент таблицы для списка покупок -->
       <OrderTable :orders="bids" type="buy" :ourOrders="ourOrders" />
-
-      <!-- Компонент для отображения информации о спреде -->
-      <SpreadInfo v-if="hasSpread" :spread="spread" />
     </div>
   </div>
 </template>
