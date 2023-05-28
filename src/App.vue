@@ -1,14 +1,14 @@
 <template>
-  <MainPage />
+  <OrderBook />
 </template>
 
 <script>
-  import MainPage from "./components/MainPage.vue";
+  import OrderBook from "@/components/OrderBook.vue";
 
   export default {
     name: "App",
     components: {
-      MainPage
+      OrderBook
     }
   };
 </script>

@@ -1,57 +1,31 @@
 <template>
   <div class="order-book dark">
-    <div v-if="isLoading" class="loading">Загрузка...</div>
+    <LoadingIndicator v-if="isLoading" />
     <div v-else>
       <div class="header-row">
         <div class="header">Asks (Продажа)</div>
       </div>
-      <table class="order-table">
-        <thead>
-          <tr>
-            <th>Цена (USDT)</th>
-            <th>Количество (BTC)</th>
-            <th>Всего</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="ask in asks" :key="ask.price">
-            <td :class="{ highlighted: isOurOrder(ask), 'sell-cell': true }">
-              {{ formatPrice(ask.price) }}
-            </td>
-            <td>{{ formatQuantity(ask.quantity) }}</td>
-            <td>{{ formatTotal(ask.price, ask.quantity) }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <OrderTable :orders="asks" type="sell" :ourOrders="ourOrders" />
       <div class="header-row">
-        <div class="header">Bids (Покупка)</div>
+        <div class="header pt25">Bids (Покупка)</div>
       </div>
-      <table class="order-table">
-        <thead>
-          <tr>
-            <th>Цена (USDT)</th>
-            <th>Количество (BTC)</th>
-            <th>Всего</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="bid in bids" :key="bid.price">
-            <td :class="{ highlighted: isOurOrder(bid), 'buy-cell': true }">
-              {{ formatPrice(bid.price) }}
-            </td>
-            <td>{{ formatQuantity(bid.quantity) }}</td>
-            <td>{{ formatTotal(bid.price, bid.quantity) }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="spread">Spread: {{ formatSpread() }}</div>
+      <OrderTable :orders="bids" type="buy" :ourOrders="ourOrders" />
+      <SpreadInfo :spread="calculateSpread()" />
     </div>
   </div>
 </template>
 
 <script>
+  import OrderTable from "./OrderTable.vue";
+  import SpreadInfo from "./SpreadInfo.vue";
+  import LoadingIndicator from "./LoadingIndicator.vue";
+
   export default {
-    components: {},
+    components: {
+      OrderTable,
+      SpreadInfo,
+      LoadingIndicator
+    },
     data() {
       return {
         isLoading: true,
@@ -65,20 +39,6 @@
         return this.ourOrders.some(
           (ourOrder) => ourOrder.price === order.price
         );
-      },
-      formatPrice(price) {
-        return parseFloat(price).toFixed(2);
-      },
-      formatQuantity(quantity) {
-        return parseFloat(quantity).toFixed(8);
-      },
-      formatTotal(price, quantity) {
-        const total = price * quantity;
-        return parseFloat(total).toFixed(2);
-      },
-      formatSpread() {
-        const spread = this.calculateSpread();
-        return parseFloat(spread).toFixed(2);
       },
       calculateSpread() {
         if (this.bids.length === 0 || this.asks.length === 0) {
@@ -151,6 +111,7 @@
 </script>
 
 <style scoped>
+  /* Стили для компонента OrderBook */
   .order-book {
     display: flex;
     flex-direction: column;
@@ -176,82 +137,31 @@
     margin-bottom: 5px;
   }
 
-  .order-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .order-table th,
-  .order-table td {
-    padding: 8px;
-    text-align: left;
-  }
-
-  .order-table th {
-    font-weight: bold;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .order-row td {
-    border-bottom: 1px solid #ddd;
-  }
-
-  .highlighted {
-    font-weight: bold;
-  }
-
-  .sell-cell {
-    color: red;
-  }
-
-  .buy-cell {
-    color: green;
-  }
-
   .spread {
     margin-top: 20px;
     font-weight: bold;
     font-size: 16px;
   }
 
-  /* Dark theme styles */
-  .order-book.dark {
+  /* Темные стили */
+  .dark {
     background-color: #333;
     color: #fff;
   }
 
-  .header-row.dark {
+  .dark .header-row {
     color: #ddd;
   }
 
-  .header.dark {
+  .dark .header {
     color: #aaa;
   }
 
-  .order-row.dark {
+  .dark .spread {
     color: #ddd;
   }
 
-  .sell-cell.dark {
-    color: #ff4d4f;
-  }
-
-  .buy-cell.dark {
-    color: #52c41a;
-  }
-
-  .spread.dark {
-    color: #ddd;
-  }
-
-  /* Additional styles for displaying in a single line */
-  .order-table {
-    table-layout: fixed;
-  }
-
-  .order-row td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .pt25 {
+    padding-top: 25px;
   }
 </style>
