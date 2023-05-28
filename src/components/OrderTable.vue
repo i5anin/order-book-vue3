@@ -9,7 +9,7 @@
             'buy-cell': type === 'buy'
           }"
         >
-          {{ formatPrice(row.price) }}
+          <strong>{{ formatPrice(row.price) }}</strong>
         </div>
       </template>
       <template v-slot:header>Цена (USDT)</template>
