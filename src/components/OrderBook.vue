@@ -11,13 +11,9 @@
       element-loading-background="rgba(122, 122, 122, 0.8)"
     >
       <div v-if="!loading">
-        <div class="header-row">
-          <!-- <el-card class="header">Asks (Продажа)</el-card> -->
-        </div>
+        <div class="header-row"></div>
         <OrderTable :orders="asks" type="sell" :ourOrders="ourOrders" />
-        <div class="header-row pt25">
-          <!-- <el-card class="header">Bids (Покупка)</el-card> -->
-        </div>
+        <div class="header-row pt25"></div>
         <OrderTable :orders="bids" type="buy" :ourOrders="ourOrders" />
       </div>
     </div>
