@@ -39,8 +39,8 @@ export default createStore({
   actions: {
     async subscribeToOrderBookStream({ commit }) {
       const baseUrl = "wss://stream.binance.com:9443";
-      //   const requestUrl = `${baseUrl}/ws/btcusdt@depth@1000ms`;
-      const requestUrl = `${baseUrl}/ws/dentusdt@depth@1000ms`;
+      const requestUrl = `${baseUrl}/ws/btcusdt@depth@1000ms`;
+      //   const requestUrl = `${baseUrl}/ws/dentusdt@depth@1000ms`;
 
       const eventSource = new WebSocket(requestUrl);
 

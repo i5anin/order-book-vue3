@@ -1,6 +1,6 @@
 <template>
   <div class="spread" title="Разница между лучшей ценой на покупку и продажу">
-    Spread: {{ formatSpread() }} %
+    Spread: <strong>{{ formatSpread() }} %</strong>
   </div>
 </template>
 
@@ -19,3 +19,10 @@
     }
   };
 </script>
+
+<style>
+  .spread {
+    font-size: 12px;
+    color: red;
+  }
+</style>

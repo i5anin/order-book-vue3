@@ -12,11 +12,11 @@
     >
       <div v-if="!loading">
         <div class="header-row">
-          <el-card class="header">Asks (Продажа)</el-card>
+          <!-- <el-card class="header">Asks (Продажа)</el-card> -->
         </div>
         <OrderTable :orders="asks" type="sell" :ourOrders="ourOrders" />
         <div class="header-row pt25">
-          <el-card class="header">Bids (Покупка)</el-card>
+          <!-- <el-card class="header">Bids (Покупка)</el-card> -->
         </div>
         <OrderTable :orders="bids" type="buy" :ourOrders="ourOrders" />
       </div>

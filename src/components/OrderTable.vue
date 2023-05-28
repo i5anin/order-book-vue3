@@ -57,30 +57,14 @@
         );
       },
       formatPrice(price) {
-        if (price === 0) {
-          return "0.00";
-        } else {
-          return parseFloat(price)
-            .toFixed(8)
-            .replace(/\.?0+$/, "");
-        }
+        return parseFloat(price).toFixed(10);
       },
       formatQuantity(quantity) {
-        if (quantity === 0) {
-          return "0.00";
-        } else {
-          return parseFloat(quantity)
-            .toFixed(8)
-            .replace(/\.?0+$/, "");
-        }
+        return parseFloat(quantity).toFixed(10);
       },
       formatTotal(price, quantity) {
         const total = price * quantity;
-        if (total === 0) {
-          return "0.00";
-        } else {
-          return total.toFixed(8).replace(/\.?0+$/, "");
-        }
+        return parseFloat(total).toFixed(10);
       }
     }
   };
