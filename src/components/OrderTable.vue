@@ -12,19 +12,21 @@
           {{ formatPrice(row.price) }}
         </div>
       </template>
-      <template v-slot:header> Цена (USDT) </template>
+      <template v-slot:header>Цена (USDT)</template>
     </el-table-column>
     <el-table-column prop="quantity">
       <template v-slot="{ row }">
-        {{ formatQuantity(row.quantity) }}
+        <div :class="{ 'zero-quantity': row.quantity === 0 }">
+          {{ formatQuantity(row.quantity) }}
+        </div>
       </template>
-      <template v-slot:header> Количество (BTC) </template>
+      <template v-slot:header>Количество (BTC)</template>
     </el-table-column>
     <el-table-column>
       <template v-slot="{ row }">
         {{ formatTotal(row.price, row.quantity) }}
       </template>
-      <template v-slot:header> Всего </template>
+      <template v-slot:header>Всего</template>
     </el-table-column>
   </el-table>
 </template>
@@ -71,5 +73,8 @@
   }
   .buy-cell {
     color: green;
+  }
+  .zero-quantity {
+    color: rgb(206, 206, 206);
   }
 </style>
