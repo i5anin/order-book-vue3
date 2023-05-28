@@ -13,7 +13,7 @@
       <div v-if="!loading">
         <div class="header-row">
           <div class="current-price">
-            <strong>{{ currentBitcoinPrice }}</strong>
+            <b>{{ currentBitcoinPrice }}</b>
           </div>
         </div>
         <OrderTable

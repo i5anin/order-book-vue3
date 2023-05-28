@@ -9,20 +9,18 @@
             'buy-cell': type === 'buy'
           }"
         >
-          <strong v-if="rowIndex === 1 && type === 'buy'">
+          <b v-if="rowIndex === 1 && type === 'buy'">
             {{ getCurrentBitcoinPrice }}
-          </strong>
-          <strong v-else>
+          </b>
+          <b v-else>
             {{ formatPrice(row.price) }}
-          </strong>
+          </b>
         </div>
       </template>
       <template v-slot:header>
         <span v-if="currency === 'btc'">Цена (BTC)</span>
         <span v-else-if="rowIndex === 1 && type === 'buy'">
-          <strong
-            >{{ getCurrentBitcoinPrice }} (актуальная цена биткойна)</strong
-          >
+          <b>{{ getCurrentBitcoinPrice }} (актуальная цена биткойна)</b>
         </span>
         <span v-else>Цена (DENT)</span>
       </template>
