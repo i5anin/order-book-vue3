@@ -87,7 +87,7 @@
         );
         const centerIndex = Math.floor(filteredOrders.length / 2);
         const start = centerIndex - 10;
-        const end = centerIndex + 11; // Include center row + 10 rows on each side
+        const end = centerIndex + 11; // Включите центральный ряд + 10 рядов с каждой стороны
 
         let visibleOrders;
         if (this.type === "sell") {
