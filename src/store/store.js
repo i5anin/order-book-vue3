@@ -7,7 +7,7 @@ export default createStore({
       asks: [],
       bids: [],
       ourOrders: [],
-      currentBitcoinPrice: 0 // Adding a new field for the current BTC price
+      currentBitcoinPrice: 0 // Добавляем новое поле для текущей стоимости BTC
     };
   },
   getters: {
@@ -38,56 +38,48 @@ export default createStore({
     },
     setCurrentBitcoinPrice(state, currentPrice) {
       state.currentBitcoinPrice = currentPrice;
-    } // Adding a mutation to update the current BTC price
+    } // Добавляем мутацию для обновления текущей стоимости BTC
   },
   actions: {
     async subscribeToOrderBookStream({ commit }) {
       const baseUrl = "wss://stream.binance.com:9443";
       const requestUrl = `${baseUrl}/ws/btcusdt@depth@1000ms`;
+      //   const requestUrl = `${baseUrl}/ws/dentusdt@depth@1000ms`;
 
-      const connectStream = () => {
-        const eventSource = new WebSocket(requestUrl);
+      const eventSource = new WebSocket(requestUrl);
 
-        eventSource.onopen = () => {
-          commit("setLoading", false);
-        };
-
-        eventSource.onmessage = (event) => {
-          const data = JSON.parse(event.data);
-          commit(
-            "setAsks",
-            data.a.map((ask) => ({
-              price: parseFloat(ask[0]),
-              quantity: parseFloat(ask[1])
-            }))
-          );
-          commit(
-            "setBids",
-            data.b.map((bid) => ({
-              price: parseFloat(bid[0]),
-              quantity: parseFloat(bid[1])
-            }))
-          );
-
-          // Extract the current BTC price from the bid offers
-          if (data.b && data.b.length > 0) {
-            const currentPrice = parseFloat(data.b[0][0]);
-            commit("setCurrentBitcoinPrice", currentPrice);
-            // console.log("Current BTC Price:", currentPrice);
-          }
-        };
-
-        eventSource.onerror = (error) => {
-          console.error("Failed to subscribe to order book stream:", error);
-        };
-
-        eventSource.onclose = () => {
-          console.log("Stream closed. Reconnecting...");
-          setTimeout(connectStream, 10000); // Reconnect after 10 seconds
-        };
+      eventSource.onopen = () => {
+        commit("setLoading", false);
       };
 
-      connectStream();
+      eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        commit(
+          "setAsks",
+          data.a.map((ask) => ({
+            price: parseFloat(ask[0]),
+            quantity: parseFloat(ask[1])
+          }))
+        );
+        commit(
+          "setBids",
+          data.b.map((bid) => ({
+            price: parseFloat(bid[0]),
+            quantity: parseFloat(bid[1])
+          }))
+        );
+
+        // Извлекаем текущую стоимость BTC из предложений покупки (bids)
+        if (data.b && data.b.length > 0) {
+          const currentPrice = parseFloat(data.b[0][0]);
+          commit("setCurrentBitcoinPrice", currentPrice);
+          // console.log("Текущая стоимость BTC:", currentPrice);
+        }
+      };
+
+      eventSource.onerror = (error) => {
+        console.error("Failed to subscribe to order book stream:", error);
+      };
     }
   }
 });
