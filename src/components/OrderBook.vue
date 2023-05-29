@@ -21,7 +21,7 @@
         type="buy"
         :ourOrders="ourOrders"
         :currency="selectedCurrency"
-        :headerText="currentBitcoinPrice.toFixed(2)"
+        :headerText="currentBitcoinPrice"
       />
     </loading-spinner>
   </div>
@@ -64,7 +64,7 @@
         return this.$store.state.ourOrders;
       },
       currentBitcoinPrice() {
-        return this.$store.state.currentBitcoinPrice;
+        return this.$store.state.currentBitcoinPrice.toFixed(2);
       }
     },
     created() {
