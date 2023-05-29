@@ -18,7 +18,7 @@
       </template>
       <template v-slot:header>
         <span
-          ><b>{{ currentBitcoinPrice }}</b> Цена (BTC)</span
+          ><b> {{ headerText }}</b></span
         >
       </template>
     </el-table-column>
@@ -62,6 +62,10 @@
       },
       currency: {
         type: String,
+        required: true
+      },
+      headerText: {
+        type: [String, Number],
         required: true
       }
     },

@@ -21,13 +21,15 @@
           type="sell"
           :ourOrders="ourOrders"
           :currency="selectedCurrency"
+          :headerText="'Цена (BTC)'"
         />
-        <div class="header-row pt25"></div>
         <OrderTable
           :orders="bids"
           type="buy"
           :ourOrders="ourOrders"
           :currency="selectedCurrency"
+          :headerText="currentBitcoinPrice"
+          :spread="spread"
         />
       </div>
     </div>
@@ -46,10 +48,7 @@
     data() {
       return {
         selectedCurrency: "btc",
-        currencies: [
-          { label: "DENT", value: "dent" },
-          { label: "BTC", value: "btc" }
-        ]
+        currencies: [{ label: "BTC", value: "btc" }]
       };
     },
     computed: {
@@ -72,13 +71,11 @@
         return this.$store.state.ourOrders;
       },
       currentBitcoinPrice() {
-        // Получить текущую цену биткойна из хранилища или другого источника данных
         return this.$store.state.currentBitcoinPrice;
       }
     },
     created() {
       this.$store.dispatch("subscribeToOrderBookStream");
-      // this.$store.dispatch("fetchOurOrders");
     },
     methods: {
       changeCurrency() {
