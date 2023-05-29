@@ -3,47 +3,40 @@
     <el-card v-if="hasSpread" class="spread-info">
       <SpreadInfo :spread="spread" />
     </el-card>
-    <div
-      v-loading="loading"
-      element-loading-text="Loading..."
-      :element-loading-spinner="svg"
-      element-loading-svg-view-box="-10, -10, 50, 50"
-      element-loading-background="rgba(122, 122, 122, 0.8)"
-    >
-      <div v-if="!loading">
-        <div class="header-row">
-          <div class="current-price">
-            <b>{{ currentBitcoinPrice }}</b>
-          </div>
+    <loading-spinner :loading="loading">
+      <div class="header-row">
+        <div class="current-price">
+          <b>{{ currentBitcoinPrice }}</b>
         </div>
-        <OrderTable
-          :orders="asks"
-          type="sell"
-          :ourOrders="ourOrders"
-          :currency="selectedCurrency"
-          :headerText="'Цена (BTC)'"
-        />
-        <OrderTable
-          :orders="bids"
-          type="buy"
-          :ourOrders="ourOrders"
-          :currency="selectedCurrency"
-          :headerText="currentBitcoinPrice"
-          :spread="spread"
-        />
       </div>
-    </div>
+      <OrderTable
+        :orders="asks"
+        type="sell"
+        :ourOrders="ourOrders"
+        :currency="selectedCurrency"
+        :headerText="'Цена (BTC)'"
+      />
+      <OrderTable
+        :orders="bids"
+        type="buy"
+        :ourOrders="ourOrders"
+        :currency="selectedCurrency"
+        :headerText="currentBitcoinPrice.toFixed(2)"
+      />
+    </loading-spinner>
   </div>
 </template>
 
 <script>
   import OrderTable from "./OrderTable.vue";
   import SpreadInfo from "./SpreadInfo.vue";
+  import LoadingSpinner from "./LoadingSpinner.vue";
 
   export default {
     components: {
       OrderTable,
-      SpreadInfo
+      SpreadInfo,
+      LoadingSpinner
     },
     data() {
       return {
@@ -84,21 +77,6 @@
       refreshOrders() {
         this.$store.dispatch("fetchOurOrders");
       }
-    },
-    setup() {
-      const svg = `
-      <path class="path" d="
-        M 30 15
-        L 28 17
-        M 25.61 25.61
-        A 15 15, 0, 0, 1, 15 30
-        A 15 15, 0, 1, 1, 27.99 7.5
-        L 15 15
-      " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
-    `;
-      return {
-        svg
-      };
     }
   };
 </script>
