@@ -1,13 +1,12 @@
 <template>
   <div class="order-book dark">
     <el-card v-if="hasSpread" class="spread-info">
-      <SpreadInfo :spread="spread" />
+      <b>{{ currentBitcoinPrice }}</b
+      ><SpreadInfo :spread="spread" />
     </el-card>
     <loading-spinner :loading="loading">
       <div class="header-row">
-        <div class="current-price">
-          <b>{{ currentBitcoinPrice }}</b>
-        </div>
+        <div class="current-price"></div>
       </div>
       <OrderTable
         :orders="asks"
