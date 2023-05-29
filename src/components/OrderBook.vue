@@ -78,7 +78,7 @@
     },
     created() {
       this.$store.dispatch("subscribeToOrderBookStream");
-      this.$store.dispatch("fetchOurOrders");
+      // this.$store.dispatch("fetchOurOrders");
     },
     methods: {
       changeCurrency() {

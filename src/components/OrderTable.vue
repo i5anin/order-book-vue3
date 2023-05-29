@@ -9,34 +9,34 @@
             'buy-cell': type === 'buy'
           }"
         >
-          <b v-if="rowIndex === 1 && type === 'buy'">
-            {{ getCurrentBitcoinPrice }}
-          </b>
-          <b v-else>
-            {{ formatPrice(row.price) }}
-          </b>
+          <span v-if="type === 'buy' && row === visibleOrders[centerIndex]">
+          </span>
+          <span v-if="currency === 'btc'">
+            <b>{{ formatPrice(row.price) }}</b>
+          </span>
         </div>
       </template>
       <template v-slot:header>
-        <span v-if="currency === 'btc'">Цена (BTC)</span>
-        <span v-else-if="rowIndex === 1 && type === 'buy'">
-          <b>{{ getCurrentBitcoinPrice }} (актуальная цена биткойна)</b>
-        </span>
-        <span v-else>Цена (DENT)</span>
+        <span
+          ><b>{{ currentBitcoinPrice }}</b> Цена (BTC)</span
+        >
       </template>
     </el-table-column>
     <el-table-column prop="quantity">
       <template v-slot="{ row }">
-        {{ formatQuantity(row.quantity) }}
+        <span v-if="row.quantity !== 0">{{
+          formatQuantity(row.quantity)
+        }}</span>
       </template>
       <template v-slot:header>
         <span v-if="currency === 'btc'">Количество (BTC)</span>
-        <span v-else>Количество (DENT)</span>
       </template>
     </el-table-column>
     <el-table-column>
       <template v-slot="{ row }">
-        {{ formatTotal(row.price, row.quantity) }}
+        <span v-if="row.price !== 0 && row.quantity !== 0">{{
+          formatTotal(row.price, row.quantity)
+        }}</span>
       </template>
       <template v-slot:header>Всего</template>
     </el-table-column>
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+  import { mapState } from "vuex";
+
   export default {
     props: {
       orders: {
@@ -63,41 +65,55 @@
         required: true
       }
     },
+    data() {
+      return {
+        centerIndex: null
+      };
+    },
     computed: {
+      ...mapState(["currentBitcoinPrice"]),
       visibleOrders() {
-        const filteredOrders = this.orders.filter(
-          (order) =>
-            this.formatTotal(order.price, order.quantity) !== "0.00000000"
-        );
-        const centerIndex = Math.floor(filteredOrders.length / 2);
-        const start = centerIndex - 5;
-        const end = centerIndex + 6; // Include center row + 10 rows on each side
-
-        if (this.type === "sell") {
-          return filteredOrders.slice().reverse().slice(start, end);
-        } else {
-          return filteredOrders.slice(start, end);
-        }
-      },
-      getCurrentBitcoinPrice() {
-        return this.$store.state.currentBitcoinPrice;
+        return this.calculateVisibleOrders();
       }
     },
     methods: {
+      calculateVisibleOrders() {
+        const filteredOrders = this.orders.filter(
+          (order) => order.quantity !== 0 && order.total !== 0
+        );
+        const centerIndex = Math.floor(filteredOrders.length / 2);
+        const start = centerIndex - 10;
+        const end = centerIndex + 11; // Include center row + 10 rows on each side
+
+        let visibleOrders;
+        if (this.type === "sell") {
+          visibleOrders = filteredOrders.slice().reverse().slice(start, end);
+        } else {
+          visibleOrders = filteredOrders.slice(start, end);
+        }
+
+        this.centerIndex = centerIndex;
+
+        return visibleOrders;
+      },
+      getCurrentBitcoinPrice() {
+        const centerRow = this.visibleOrders[this.centerIndex];
+        return centerRow ? centerRow.price : "";
+      },
       isOurOrder(order) {
         return this.ourOrders.some(
           (ourOrder) => ourOrder.price === order.price
         );
       },
       formatPrice(price) {
-        return parseFloat(price).toFixed(8);
+        return parseFloat(price).toFixed(2);
       },
       formatQuantity(quantity) {
-        return parseFloat(quantity).toFixed(8);
+        return parseFloat(quantity).toFixed(6);
       },
       formatTotal(price, quantity) {
         const total = price * quantity;
-        return parseFloat(total).toFixed(8);
+        return parseFloat(total).toFixed(6);
       }
     }
   };
@@ -111,6 +127,6 @@
     color: green;
   }
   .highlighted {
-    background-color: yellow;
+    color: yellow;
   }
 </style>
