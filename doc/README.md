@@ -130,8 +130,4 @@ Payload:
 3.  Стек можно использовать любой. Важно продемонстрировать умение работать с vue 3 и vuex
 4.  Проверяем ответы и даем обратную связь в течение 2 дней
 
-Ответы на тестовое отправляйте в форму [https://forms.gle/ywZPFQ78sRSAL2XbA](https://www.google.com/url?q=https://forms.gle/ywZPFQ78sRSAL2XbA&sa=D&source=editors&ust=1685177989979584&usg=AOvVaw04y7PEFPf-xBxMiijxv6dw)
-
-Если остались вопросы, напишите их мне в телеграм `@Denis250152`
-
 Удачи в выполнении задания!
