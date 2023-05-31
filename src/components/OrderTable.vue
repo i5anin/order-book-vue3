@@ -75,7 +75,7 @@
       };
     },
     computed: {
-      ...mapState(["currentBitcoinPrice"]),
+      ...mapState(["currentCoinPrice"]),
       visibleOrders() {
         return this.calculateVisibleOrders();
       }
@@ -100,7 +100,7 @@
 
         return visibleOrders;
       },
-      getCurrentBitcoinPrice() {
+      getCurrentCoinPrice() {
         const centerRow = this.visibleOrders[this.centerIndex];
         return centerRow ? centerRow.price : "";
       },

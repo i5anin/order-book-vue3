@@ -8,7 +8,7 @@ export default createStore({
       asks: [],
       bids: [],
       ourOrders: [],
-      currentBitcoinPrice: 0
+      currentCoinPrice: 0
     };
   },
   getters: {
@@ -55,7 +55,7 @@ export default createStore({
 
           if (bids && bids.length > 0) {
             const currentPrice = parseFloat(bids[0].price);
-            commit("setCurrentBitcoinPrice", currentPrice);
+            commit("setCurrentCoinPrice", currentPrice);
           }
         };
       } catch (error) {

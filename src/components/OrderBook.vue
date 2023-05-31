@@ -1,7 +1,7 @@
 <template>
   <div class="order-book dark">
     <el-card v-if="hasSpread" class="spread-info">
-      <b>{{ currentBitcoinPrice }}</b
+      <b>{{ currentCoinPrice }}</b
       ><SpreadInfo :spread="spread" />
     </el-card>
     <loading-spinner :loading="loading">
@@ -20,7 +20,7 @@
         type="buy"
         :ourOrders="ourOrders"
         :currency="selectedCurrency"
-        :headerText="currentBitcoinPrice"
+        :headerText="currentCoinPrice"
       />
     </loading-spinner>
   </div>
@@ -62,8 +62,8 @@
       ourOrders() {
         return this.$store.state.ourOrders;
       },
-      currentBitcoinPrice() {
-        return this.$store.state.currentBitcoinPrice.toFixed(2);
+      currentCoinPrice() {
+        return this.$store.state.currentCoinPrice.toFixed(2);
       }
     },
     created() {
