@@ -25,22 +25,14 @@ export default createStore({
     }
   },
   mutations: {
-    setLoading(state, isLoading) {
-      state.isLoading = isLoading;
-    },
-    setAsks(state, asks) {
-      state.asks = asks;
-    },
-    setBids(state, bids) {
-      state.bids = bids;
-    },
-    setOurOrders(state, ourOrders) {
-      state.ourOrders = ourOrders;
-    },
-    setCurrentBitcoinPrice(state, currentPrice) {
-      state.currentBitcoinPrice = currentPrice;
-    }
+    setLoading: (state, isLoading) => (state.isLoading = isLoading),
+    setAsks: (state, asks) => (state.asks = asks),
+    setBids: (state, bids) => (state.bids = bids),
+    setOurOrders: (state, ourOrders) => (state.ourOrders = ourOrders),
+    setCurrentCoinPrice: (state, currentPrice) =>
+      (state.currentCoinPrice = currentPrice)
   },
+
   actions: {
     async subscribeToOrderBookStream({ commit }) {
       try {
