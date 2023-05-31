@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="spread"
-    :class="{ red: spread < 0 }"
-    title="Разница между лучшей ценой на покупку и продажу"
-  >
+  <div class="spread" :class="{ red: spread > 0, green: spread < 0 }">
     Spread: <b>{{ formatSpread() }} %</b>
   </div>
 </template>
@@ -26,10 +22,14 @@
 
 <style>
   .spread {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .red {
     color: red;
+  }
+
+  .green {
+    color: green;
   }
 </style>
