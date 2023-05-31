@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import { subscribeToOrderBookStream } from "./api";
 
 export default createStore({
   state() {
@@ -7,7 +8,7 @@ export default createStore({
       asks: [],
       bids: [],
       ourOrders: [],
-      currentBitcoinPrice: 0 // Добавляем новое поле для текущей стоимости BTC
+      currentBitcoinPrice: 0
     };
   },
   getters: {
@@ -38,48 +39,37 @@ export default createStore({
     },
     setCurrentBitcoinPrice(state, currentPrice) {
       state.currentBitcoinPrice = currentPrice;
-    } // Добавляем мутацию для обновления текущей стоимости BTC
+    }
   },
   actions: {
     async subscribeToOrderBookStream({ commit }) {
-      const baseUrl = "wss://stream.binance.com:9443";
-      const requestUrl = `${baseUrl}/ws/btcusdt@depth@1000ms`;
-      //   const requestUrl = `${baseUrl}/ws/dentusdt@depth@1000ms`;
+      try {
+        const eventSource = await subscribeToOrderBookStream();
+        commit("setLoading", false); // Set loading to false when the connection is established
 
-      const eventSource = new WebSocket(requestUrl);
-
-      eventSource.onopen = () => {
-        commit("setLoading", false);
-      };
-
-      eventSource.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        commit(
-          "setAsks",
-          data.a.map((ask) => ({
+        eventSource.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          const asks = data.a.map((ask) => ({
             price: parseFloat(ask[0]),
             quantity: parseFloat(ask[1])
-          }))
-        );
-        commit(
-          "setBids",
-          data.b.map((bid) => ({
+          }));
+          const bids = data.b.map((bid) => ({
             price: parseFloat(bid[0]),
             quantity: parseFloat(bid[1])
-          }))
-        );
+          }));
 
-        // Извлекаем текущую стоимость BTC из предложений покупки (bids)
-        if (data.b && data.b.length > 0) {
-          const currentPrice = parseFloat(data.b[0][0]);
-          commit("setCurrentBitcoinPrice", currentPrice);
-          // console.log("Текущая стоимость BTC:", currentPrice);
-        }
-      };
+          commit("setAsks", asks);
+          commit("setBids", bids);
 
-      eventSource.onerror = (error) => {
+          if (bids && bids.length > 0) {
+            const currentPrice = parseFloat(bids[0].price);
+            commit("setCurrentBitcoinPrice", currentPrice);
+          }
+        };
+      } catch (error) {
         console.error("Failed to subscribe to order book stream:", error);
-      };
+        commit("setLoading", false); // Set loading to false in case of an error
+      }
     }
   }
 });
