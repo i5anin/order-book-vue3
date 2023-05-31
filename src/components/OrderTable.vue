@@ -18,7 +18,7 @@
       </template>
       <template v-slot:header>
         <span
-          ><b> {{ headerText }}</b></span
+          ><b>{{ headerText }}</b></span
         >
       </template>
     </el-table-column>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-  import { mapState } from "vuex";
+  import { mapGetters } from "vuex";
 
   export default {
     props: {
@@ -69,16 +69,16 @@
         required: true
       }
     },
+    computed: {
+      ...mapGetters(["currentCoinPrice"]),
+      visibleOrders() {
+        return this.calculateVisibleOrders();
+      }
+    },
     data() {
       return {
         centerIndex: null
       };
-    },
-    computed: {
-      ...mapState(["currentCoinPrice"]),
-      visibleOrders() {
-        return this.calculateVisibleOrders();
-      }
     },
     methods: {
       calculateVisibleOrders() {
@@ -100,10 +100,6 @@
 
         return visibleOrders;
       },
-      getCurrentCoinPrice() {
-        const centerRow = this.visibleOrders[this.centerIndex];
-        return centerRow ? centerRow.price : "";
-      },
       isOurOrder(order) {
         return this.ourOrders.some(
           (ourOrder) => ourOrder.price === order.price
@@ -117,7 +113,7 @@
       },
       formatTotal(price, quantity) {
         const total = price * quantity;
-        return parseFloat(total).toFixed(6);
+        return parseFloat(total).toFixed(2);
       }
     }
   };
