@@ -1,7 +1,7 @@
 // Импортируем функцию createStore из библиотеки Vuex
 import { createStore } from "vuex";
 // Импортируем функцию subscribeToOrderBookStream из файла api
-import { subscribeToOrderBookStream } from "./api";
+import { subscribeToOrderBookStream } from "@/store/api";
 
 // Экспортируем объект состояния Vuex
 export default createStore({

@@ -29,4 +29,19 @@
   .el-table .el-table__cell {
     padding: 2px 0 !important;
   }
+
+  .red,
+  .sell-cell {
+    color: red;
+  }
+
+  .green,
+  .buy-cell {
+    color: green;
+  }
+
+  .yellow,
+  .highlighted {
+    color: yellow;
+  }
 </style>

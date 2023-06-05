@@ -28,12 +28,4 @@
   .spread {
     font-size: 16px;
   }
-
-  .red {
-    color: red;
-  }
-
-  .green {
-    color: green;
-  }
 </style>

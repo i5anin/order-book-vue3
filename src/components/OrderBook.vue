@@ -34,9 +34,9 @@
 
 <script>
   // Импорт компонентов
-  import OrderTable from "./OrderTable.vue";
-  import SpreadInfo from "./SpreadInfo.vue";
-  import LoadingSpinner from "./LoadingSpinner.vue";
+  import OrderTable from "@/components/OrderTable.vue";
+  import SpreadInfo from "@/components/SpreadInfo.vue";
+  import LoadingSpinner from "@/components/LoadingSpinner.vue";
   import { mapGetters } from "vuex";
 
   export default {
@@ -48,32 +48,27 @@
     // Определение данных компонента
     data() {
       return {
-        selectedCurrency: "btc",
-        currencies: [{ label: "BTC", value: "btc" }]
+        selectedCurrency: "btc"
       };
     },
     // Определение вычисляемых свойств компонента
-    computed: {
-      ...mapGetters([
-        "isLoading",
-        "hasSpread",
-        "spread",
-        "asks",
-        "bids",
-        "ourOrders",
-        "currentCoinPrice"
-      ])
-    },
-    // Логика, выполняемая при создании компонента
+    computed: mapGetters([
+      "isLoading",
+      "hasSpread",
+      "spread",
+      "asks",
+      "bids",
+      "ourOrders",
+      "currentCoinPrice"
+    ]),
+
     created() {
+      // Подписка на поток данных о книге ордеров
       this.$store.dispatch("subscribeToOrderBookStream");
     },
-    // Определение методов компонента
     methods: {
-      changeCurrency() {
-        this.selectedCurrency = this.selectedCurrency.toLowerCase();
-      },
       refreshOrders() {
+        // Обновление ордеров
         this.$store.dispatch("fetchOurOrders");
       }
     }

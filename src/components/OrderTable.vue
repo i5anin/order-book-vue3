@@ -137,16 +137,6 @@
 </script>
 
 <style scoped>
-  /* Стили для классов таблицы */
-  .sell-cell {
-    color: red;
-  }
-  .buy-cell {
-    color: green;
-  }
-  .highlighted {
-    color: yellow;
-  }
   /* Стили для таблицы */
   .order-table {
     min-height: 50vh;
