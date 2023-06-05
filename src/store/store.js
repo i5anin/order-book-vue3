@@ -11,9 +11,25 @@ export default createStore({
       currentCoinPrice: 0
     };
   },
+  // Getters++
   getters: {
     hasSpread: (state) => {
       return state.bids.length > 0 && state.asks.length > 0;
+    },
+    isLoading(state) {
+      return state.isLoading;
+    },
+    asks(state) {
+      return state.asks;
+    },
+    bids(state) {
+      return state.bids;
+    },
+    ourOrders(state) {
+      return state.ourOrders;
+    },
+    currentCoinPrice(state) {
+      return state.currentCoinPrice.toFixed(2);
     },
     spread: (state, getters) => {
       if (!getters.hasSpread) {

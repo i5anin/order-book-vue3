@@ -129,4 +129,8 @@
   .highlighted {
     color: yellow;
   }
+  .order-table {
+    min-height: 50vh;
+    max-height: 50vh;
+  }
 </style>

@@ -4,7 +4,7 @@
       <b>{{ currentCoinPrice }}</b
       ><SpreadInfo :spread="spread" />
     </el-card>
-    <loading-spinner :loading="loading">
+    <loading-spinner :loading="isLoading">
       <div class="header-row">
         <div class="current-price"></div>
       </div>
@@ -30,6 +30,7 @@
   import OrderTable from "./OrderTable.vue";
   import SpreadInfo from "./SpreadInfo.vue";
   import LoadingSpinner from "./LoadingSpinner.vue";
+  import { mapGetters } from "vuex";
 
   export default {
     components: {
@@ -43,28 +44,17 @@
         currencies: [{ label: "BTC", value: "btc" }]
       };
     },
+
     computed: {
-      loading() {
-        return this.$store.state.isLoading;
-      },
-      hasSpread() {
-        return this.$store.getters.hasSpread;
-      },
-      spread() {
-        return this.$store.getters.spread;
-      },
-      asks() {
-        return this.$store.state.asks;
-      },
-      bids() {
-        return this.$store.state.bids;
-      },
-      ourOrders() {
-        return this.$store.state.ourOrders;
-      },
-      currentCoinPrice() {
-        return this.$store.state.currentCoinPrice.toFixed(2);
-      }
+      ...mapGetters([
+        "isLoading",
+        "hasSpread",
+        "spread",
+        "asks",
+        "bids",
+        "ourOrders",
+        "currentCoinPrice"
+      ])
     },
     created() {
       this.$store.dispatch("subscribeToOrderBookStream");
