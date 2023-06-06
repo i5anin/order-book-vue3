@@ -137,9 +137,14 @@
 </script>
 
 <style scoped>
-  /* Стили для таблицы */
-  .order-table {
+/* Стили для таблицы */
+.order-table {
     min-height: 50vh;
     max-height: 50vh;
-  }
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: flex-end;
+}
 </style>
+
