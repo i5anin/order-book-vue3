@@ -38,7 +38,7 @@
       </template>
       <!-- Шаблон для заголовка колонки -->
       <template v-slot:header>
-        <span v-if="currency === 'btc'">Количество (BTC)</span>
+        <span v-if="currency === 'btc'">{{ headerText }}</span>
       </template>
     </el-table-column>
     <!-- Колонка таблицы -->
@@ -137,14 +137,13 @@
 </script>
 
 <style scoped>
-/* Стили для таблицы */
-.order-table {
-    min-height: 50vh;
-    max-height: 50vh;
+  /* Стили для таблицы */
+  .order-table {
+    min-height: 46vh;
+    max-height: 46vh;
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
     justify-content: flex-end;
-}
+  }
 </style>
-

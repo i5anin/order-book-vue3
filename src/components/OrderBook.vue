@@ -26,7 +26,7 @@
         type="buy"
         :ourOrders="ourOrders"
         :currency="selectedCurrency"
-        :headerText="currentCoinPrice"
+        :headerText="[currentCoinPrice, spread]"
       />
     </loading-spinner>
   </div>
