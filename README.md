@@ -1,4 +1,6 @@
-# [Задание](./doc/README.md)
+# [Демо версия сайта](https://order-btc-vue3.vercel.app/)
+
+## [Задание](./doc/README.md)
 
 ## Выполнены задачи:
 
